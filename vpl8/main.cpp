@@ -1,97 +1,131 @@
-
 #include <iostream>
+#include <vector>
+#include <iomanip>
+#include <algorithm>
 #include <string>
 #include <sstream>
 #include <fstream>
-#include <list>
-int estagio;
-    char axioma[] = "F+F+F+F";
-    char regra[] = "F+F-F-FFF+F+F-F";
+#include <cmath>
 using namespace std;
-class Lista{
+
+class Ponto{
     private:
-    int id;
-    static int cont;
-    static int autocont;
+    int x, y;
     public:
-    
-    Lista(){
-        id = autocont;
-        autocont++;
-        cont++;
+    Ponto(int x, int y){
+        this->x = x;
+        this->y = y;
     }
-    Lista(int y){
-        this->id = y;
-        cont++;
+    int getCordX(){
+        return x;
     }
-    ~Lista(){
-        cont--;
-    }
-    int getId(){
-        return this -> id;
-    }
-    Lista* getEnde(){
-        return this;
-    }
-    static int getNumObjetos() {
-        return cont;
+    int getCordY(){
+        return y;
     }
 };
-int Lista::cont = 0;
-int Lista::autocont = 1;
 
-
-
-
-int main(int argc, char const *argv[]){
-   list<Lista*> lista;
-   int uai = 1;
-   char entrada;
-   int n;
-   while(uai = 1){
-    cin >> entrada;
-    if(entrada == 'A'){
-        lista.push_back(new Lista());
-        cout << lista.back()->getId() << " " << lista.back()->getEnde() << endl;
-        
-    }else if(entrada == 'C'){
-        cin >> n;
-        if(n<0){
-        lista.push_front(new Lista(n));
-        cout << lista.front()->getId() << " " << lista.front()->getEnde() << endl;
-        }
-        else{
-            cout << "ERRO\n"; }
-        
-    }else if(entrada == 'R'){
-        if(!lista.empty()){
-        Lista* objeto = lista.front();
-        lista.pop_front();
-        cout << objeto->getId() << " " << objeto->getEnde() << endl;
-        delete objeto;
-        }else{
-            cout << "ERRO\n";
-        }
-    }else if(entrada == 'N'){
-        cout << Lista::getNumObjetos() << endl;
-    }else if(entrada == 'P'){
-        int indice;
-        cin >> indice;
-        if (indice < 1 || indice > static_cast<int>(lista.size())) {
-            cout << "ERRO" << endl;
-        } else {
-            auto it = lista.begin();
-            advance(it, indice - 1);
-            cout << (*it)->getId() << " " << (*it)->getEnde() << endl;
-            }
-    }else if(entrada == 'L'){
-        for (const auto& objeto : lista) {
-            cout << objeto->getId() << " " << objeto->getEnde() << endl;
-            }
-    }else if(entrada == 'E'){
-        break;
+class FiguraGeometrica{
+    protected:
+    Ponto *centro;
+    public:
+    FiguraGeometrica(int x, int y){
+        centro = new Ponto(x, y);
     }
-   }
+    virtual void Desenha() const {
+        int x, y;
+        x = centro->getCordX();
+        y = centro ->getCordY();
+        cout  << x << " " << y;
+    }
+    virtual float CalculaArea() const = 0;
+    virtual ~FiguraGeometrica() {
+    delete centro;
+    }
+};
+class Circulo : public FiguraGeometrica{
+    private:
+    int raio; 
+    public: 
+    Circulo(int x, int y, int raio) : FiguraGeometrica(x, y){
+        this->raio = raio;
+    }
+    void Desenha()const override{
+        FiguraGeometrica::Desenha();
+        cout << " CIRCULO" << endl;
+        
+    }
+    float CalculaArea() const override{
+        return M_PI * raio * raio;
+    }
+};
 
+class Retangulo : public FiguraGeometrica{
+    private:
+    int  lado1, lado2;
+    public:
+    Retangulo(int x, int y, int l1, int l2) : FiguraGeometrica(x, y){    
+        this->lado1 = l1;
+        this->lado2 = l2;
+ 
+    }
+    void Desenha()const override{
+        FiguraGeometrica::Desenha();
+        cout << " RETANGULO" << endl;
+        
+    }
+    float CalculaArea() const override{
+        return lado1 * lado2;
+    }
+
+};
+class Triangulo : public FiguraGeometrica{
+    private:
+    int base, altura;
+    public:
+    Triangulo(int x, int y, int base, int altura):FiguraGeometrica(x, y){
+        this->base = base;
+        this->altura = altura;
+    }
+    void Desenha()const override{
+        FiguraGeometrica::Desenha();
+        cout << " TRIANGULO" << endl;
+        
+    }
+    float CalculaArea() const override{
+        return (base * altura)/2;
+    }
+};
+int main(int argc, char const *argv[]){
+    char entrada = '0';
+    vector<FiguraGeometrica*> vetor;
+    int c1 = 0, c2 = 0, l1 = 0, l2 = 0;
+    while (entrada != 'E'){
+        cin >> entrada;
+        if(entrada == 'R'){
+            
+            cin >> c1 >> c2 >> l1 >> l2;
+            vetor.push_back(new Retangulo(c1, c2, l1, l2));
+        }else if (entrada == 'C'){
+            cin >> c1 >> c2 >> l1;
+            vetor.push_back(new Circulo(c1, c2, l1));
+        }else if (entrada == 'T'){
+            cin >> c1 >> c2 >> l1 >> l2;
+            vetor.push_back(new Triangulo(c1, c2, l1, l2));
+        }else if (entrada  == 'D'){
+            for(int i = 0; i < vetor.size(); i++){
+            vetor[i]->Desenha();
+            }
+        }else if( entrada == 'A'){
+            float soma = 0.0;
+            for (int k =0; k < vetor.size(); k++){
+                soma += vetor[k]->CalculaArea();
+            }
+            cout << fixed << setprecision(2) << soma << endl;
+        }
+    }
+    for (auto figura : vetor) {
+    delete figura;
+    }
+    
     return 0;
 }
