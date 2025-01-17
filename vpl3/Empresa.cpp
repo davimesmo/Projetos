@@ -8,9 +8,10 @@
 #include <iomanip>
 using namespace std;
 
-Empresa::Empresa(totalBus = 0) {
+Empresa::Empresa() {
+    totalBus = 0;
     for(int j = 0; j < 20; j++){
-        vetor[i] = nullptr;
+        vetor[j] = nullptr;
     }
 }
 
@@ -20,7 +21,6 @@ Onibus *Empresa::adcionar_onibus(string placa, int capacidade) {
       return nullptr;
     }
   }
-
   vetor[totalBus] = new Onibus(placa, capacidade);
   Onibus *novo_onibus = vetor[totalBus];
   totalBus++;
@@ -28,6 +28,14 @@ Onibus *Empresa::adcionar_onibus(string placa, int capacidade) {
 }
 Onibus* Empresa::busca_onibus(string placa){
     for(int k = 0; k<totalBus; k++){
-
+      if(vetor[k]->_placa == placa){
+        return vetor[k];
+      }
     }
+    return nullptr;
+}
+void Empresa::imprimir_estado(){
+  for(int j = 0; j < totalBus; j++){
+    vetor[j]->imprimir_estado();
+  }
 }

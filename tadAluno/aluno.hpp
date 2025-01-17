@@ -6,15 +6,23 @@
 #include <fstream>
 #include <vector>
 #include <iomanip>
+#include <algorithm>
 using namespace std;
-struct Aluno{
+class Aluno{
+    private:
     string nome;
     int matricula;
     vector<int> notas;
-    double media;
-    int maior, menor;
-    void calculaMedia(vector<int> notas);
-    void maiorMenor(vector<int> notas);
+    public:
+    Aluno(string, int);
+    string getNome();
+    int getMatricula();
+    vector<int> getNotas();
+    double calculaMedia();
+    int maiorNota();
+    int menorNota();
+    void appendNota(int nota);
+    void imprimir();
 };
 
 #endif
