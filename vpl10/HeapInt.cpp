@@ -31,7 +31,7 @@ bool HeapInt::operator == (const HeapInt& outro){
 HeapInt::~HeapInt(){
     delete hint;
 }
-istream& operator >> (istream& in, const HeapInt& outro){
+istream& operator >> (istream& in, HeapInt& outro){
         in >> *(outro.hint);
         return in;
     }
