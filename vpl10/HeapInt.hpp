@@ -1,23 +1,23 @@
-#ifndef HEAPINT_H
-#define HEAPINT_H
+#ifndef HEAPINT_HPP
+#define HEAPINT_HPP
 
 #include <iostream>
-using namespace std;
-class HeapInt{
+class HeapInt {
+    private:
+        int* hint;
     public:
-    int* hint;
-    HeapInt();
-    HeapInt(int num);
-    HeapInt(HeapInt& outro);
-    ~HeapInt();
-    HeapInt& operator = (int num);
-    HeapInt& operator = (const HeapInt& outro);
-    HeapInt operator + (const HeapInt& outro);
-    HeapInt operator - (const HeapInt& outro);
-    bool operator == (const HeapInt& outro);
-    
-    friend istream& operator >> (istream& in, HeapInt& outro);
-    friend ostream& operator << (ostream& os, const HeapInt& outro);
-};
+        HeapInt();
+        HeapInt(int valor);
+        HeapInt(const HeapInt& outro);
+        ~HeapInt();
+        HeapInt& operator=(int valor);
+        HeapInt& operator=(const HeapInt& outro);
+        HeapInt operator+(const HeapInt& outro);
+        HeapInt operator-(const HeapInt& outro);
+        bool operator==(const HeapInt& outro);
 
+
+        friend std::istream& operator>>(std::istream& in, HeapInt& obj);
+        friend std::ostream& operator<<(std::ostream& out, const HeapInt& obj);
+    };
 #endif
