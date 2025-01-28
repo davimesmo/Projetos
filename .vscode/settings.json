@@ -50,6 +50,17 @@
         "ctime": "cpp",
         "sstream": "cpp",
         "list": "cpp",
-        "map": "cpp"
+        "map": "cpp",
+        "condition_variable": "cpp",
+        "csignal": "cpp",
+        "cstdarg": "cpp",
+        "cstring": "cpp",
+        "set": "cpp",
+        "unordered_set": "cpp",
+        "ratio": "cpp",
+        "mutex": "cpp",
+        "semaphore": "cpp",
+        "stop_token": "cpp",
+        "thread": "cpp"
     }
 }
