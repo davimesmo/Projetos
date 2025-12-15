@@ -4,12 +4,13 @@
 #include <vector>
 #include <list>
 #include <algorithm> //sort
-#include "ponto.hpp"
+#include "../include/ponto.hpp"
 using namespace std;
 
 int main(){
     int n;
     cin >> n;
+    //leitura dos dados
     vector<int> parede(n);
     for(int i =0; i < n; i++){
         cin >> parede[i];
@@ -22,29 +23,35 @@ int main(){
         cin >>  x >>  y;
         pontos.push_back(Ponto(x, y, c+1));
     }
+    // Ordenação por x para o algoritmo closest pair
     std::sort(pontos.begin(), pontos.end(), [](const Ponto &a, const Ponto &b) {
         if (a.x != b.x) {
             return a.x < b.x;
         }
         return a.y < b.y; 
     });
+    //maiorA recebe o maior triangulo atual, att é tanto o anterior quanto a expectativa do atual
+    //indice verifica a rampa da direita
     int maiorA = 0, att=0, indice;
     for(int j = 0; j < n; j ++){
-       
+       //caso haja queda
         if(parede[j] < att){
             att = parede[j];
         }
-
+        //caso aumente
         if(parede[j]>maiorA || parede[j] > att){
             att++;
             indice = att-1;
             int k = j+1;
             bool testador = false;
+            //para o primeiro degrau
             if(indice == 0){
                 testador = true;
             }
+            //se nao pode ser a maior parede, nem continua
             if(parede[j] <= maiorA)
                 continue;
+            //testa se a rampa da direita e valida
             while(indice){
                 
                 if(k >= n){
